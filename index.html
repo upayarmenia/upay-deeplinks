@@ -4,10 +4,22 @@
   <meta charset="UTF-8">
   <title>Open E-bak in Upay</title>
   <script>
-    window.location.href = "upay://service/415";
-    setTimeout(() => {
-      window.location.href = "http://onelink.to/zxzhuf";
-    }, 1500);
+    const appLink = "upay://service/415";
+    const fallback = "https://onelink.to/zxzhuf";
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const delay = isIOS ? 2500 : 1500;
+
+    window.onload = function() {
+      // создаём iframe — менее агрессивный способ
+      const iframe = document.createElement("iframe");
+      iframe.style.display = "none";
+      iframe.src = appLink;
+      document.body.appendChild(iframe);
+
+      setTimeout(() => {
+        window.location.replace(fallback);
+      }, delay);
+    };
   </script>
 </head>
 <body style="font-family: sans-serif; text-align: center; margin-top: 100px;">
